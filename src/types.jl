@@ -1,6 +1,6 @@
 typealias Fractional Union(FloatingPoint, FixedPoint)
 
-abstract Color{T, N}                <: FixedVector{T, N}
+abstract Color{T, N}                <: FixedVectorNoTuple{N, T}
 abstract AlphaColor{T}              <: Color{T, 4}
 abstract Color3{T}                  <: Color{T, 3}
 abstract AbstractGray{T}            <: Color{T, 1}
