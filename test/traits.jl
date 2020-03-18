@@ -51,6 +51,8 @@ end
     @test alpha(HSV(100, 0.4, 0.6)) === 1.0
     @test alpha(HSVA(100, 0.4, 0.6, 0.8)) === 0.8
     @test alpha(AHSV{Float32}(100, 0.4, 0.6, 0.8)) === 0.8f0
+    @test alpha(0)     === N0f8(1)
+    @test alpha(0.0f0) === 1.0f0
 end
 
 @testset "gray" begin
@@ -63,11 +65,12 @@ end
     @test gray(Gray{Bool}(0)) === false
 
     @testset "gray for Real" begin
-        @test gray(1) === 1
-        @test gray(0.8) === 0.8
+        @test gray(1)       === N0f8(1)
+        @test gray(0.8)     === 0.8
         @test gray(0.8N0f8) === 0.8N0f8
-        @test gray(true) === true
-        @test gray(false) === false
+        @test gray(true)    === true
+        @test gray(false)   === false
+        # @test gray(1//2)    === 1/2   # depends on https://github.com/JuliaMath/FixedPointNumbers.jl/pull/177
     end
     @test_throws MethodError gray(HSVA(100, 0.4, 0.6, 0.8))
 end

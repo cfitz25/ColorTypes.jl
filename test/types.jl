@@ -151,6 +151,7 @@ end
             @test isa(C(val,val,val), C)
             @test isa(C(val,val,val,0.8), C)
             @test isa(C(val,val,val,val), C) # no exception thrown
+            @test alpha(C(val)) === oneunit(val)
         end
     end
 end
