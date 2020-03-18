@@ -238,6 +238,18 @@ end
     @test eltype(broadcast(Gray, rand(Float32,5))) == Gray{Float32}
 end
 
+@testset "transparent gray constructors" begin
+    for x in (1, N0f8(0.5), 0.5f0, 0.5)
+        T = isa(x, Int) ? N0f8 : typeof(x)
+        @test @inferred(AGray(x)) === @inferred(AGray(x, 1)) === AGray{T}(x, 1)
+        @test @inferred(GrayA(x)) === @inferred(GrayA(x, 1)) === GrayA{T}(x, 1)
+        g = Gray(x)
+        @test @inferred(AGray(g)) === @inferred(AGray(g, 1)) === AGray{T}(x, 1)
+        @test @inferred(GrayA(g)) === @inferred(GrayA(g, 1)) === GrayA{T}(x, 1)
+    end
+    @test AGray32(Gray(0.5)) === AGray32(Gray(0.5), 1) === AGray32(N0f8(0.5)) === AGray32(N0f8(0.5), 1) === reinterpret(AGray32, 0xff808080)
+end
+
 @testset "parametric3 constructors" begin
     @testset "$C constructor" for C in ColorTypes.parametric3
         et = (C <: AbstractRGB) ? N0f8 : Float32
